@@ -10,10 +10,5 @@ class Particle(object):
         self.f_coul_corr = None
         self.f_lg = None
 
-    def calc_interaction(self, particle):
-        f = force(self.r - particle.r)
-        self.f_lg = f
-        particle.f_lg = -f
-
     def __repr__(self):
         return "<Particle {0}>".format(self.r)
