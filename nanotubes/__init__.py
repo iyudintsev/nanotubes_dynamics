@@ -21,6 +21,7 @@ class Nanotubes(object):
 
     def read_coor_from_file(self, file_name):
         with open(file_name) as f:
+            self.counter += 1
             nan = Nanotube(self.counter, self.num)
             for line in f:
                 coor = self.parse_coor(line)
@@ -36,3 +37,6 @@ class Nanotubes(object):
     @staticmethod
     def parse_coor(line):
         return np.array(list(map(lambda x: float(x), line.strip().split())))
+
+    def __repr__(self):
+        return "<Nanotubes: {0} nanotubes, {1} particles>".format(self.counter, self.counter * self.num)

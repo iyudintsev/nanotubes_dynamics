@@ -64,7 +64,7 @@ class Nanotube(object):
         for index in xrange(self.num - 1):
             self.create_node(index)
         penult_r = self.particles[self.num - 3].r
-        last_r = self.particles[self.num - 1]
+        last_r = self.particles[self.num - 1].r
         penult_node = self.nodes[self.num - 3]
         last_node = Node(*[NodeParticle(last_r + (penult_node[num].r - penult_r)) for num in xrange(3)])
         self.nodes.append(last_node)
