@@ -2,19 +2,20 @@ import numpy as np
 from .nanotube import Nanotube, NanotubeOverflow
 
 
-class CoordinatesReadException(Exception):
+class ReadCoordinatesException(Exception):
     pass
 
 
 class Nanotubes(object):
-    def __init__(self, num, file_name):
+    def __init__(self, num, file_name=None):
         """
         :param num: int, number of particles in nanotube
         """
         self.num = num
         self.counter = 0
         self.nanotubes = []
-        self.read_coor_from_file(file_name)
+        if file_name:
+            self.read_coor_from_file(file_name)
 
     """ Read Coordinates """
 
@@ -30,7 +31,7 @@ class Nanotubes(object):
                     self.counter += 1
                     nan = Nanotube(self.counter, self.num)
         if not all(map(lambda x: x.filled, self.nanotubes)):
-            raise CoordinatesReadException("Can't create nanotubes")
+            raise ReadCoordinatesException("Can't create nanotubes")
 
     @staticmethod
     def parse_coor(line):
