@@ -4,4 +4,4 @@ file_with_coor = "coordinates.txt"
 
 """ Common Parameters"""
 
-L = 200
+L = [50, 180]

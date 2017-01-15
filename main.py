@@ -5,7 +5,7 @@ from visualizer import Visualizer
 
 def main():
     nanotubes = Nanotubes(100, file_with_coor)
-    view = Visualizer(nanotubes)
+    view = Visualizer(nanotubes, 2)
     view.show()
 
 if __name__ == "__main__":

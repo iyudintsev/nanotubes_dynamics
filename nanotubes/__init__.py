@@ -41,5 +41,8 @@ class Nanotubes(object):
         for nan in self.nanotubes:
             yield nan
 
+    def __getitem__(self, index):
+        return self.nanotubes[index]
+
     def __repr__(self):
         return "<Nanotubes: {0} nanotubes, {1} particles>".format(self.counter, self.counter * self.num)

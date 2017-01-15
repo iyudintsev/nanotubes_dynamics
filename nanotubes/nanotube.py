@@ -73,5 +73,8 @@ class Nanotube(object):
         for p in self.particles:
             yield p
 
+    def __getitem__(self, index):
+        return self.particles[index]
+
     def __repr__(self):
         return "<Nanotube {0}>".format(self.nan_id)
