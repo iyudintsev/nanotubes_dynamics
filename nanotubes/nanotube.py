@@ -69,5 +69,9 @@ class Nanotube(object):
         last_node = Node(*[NodeParticle(last_r + (penult_node[num].r - penult_r)) for num in xrange(3)])
         self.nodes.append(last_node)
 
+    def __iter__(self):
+        for p in self.particles:
+            yield p
+
     def __repr__(self):
         return "<Nanotube {0}>".format(self.nan_id)

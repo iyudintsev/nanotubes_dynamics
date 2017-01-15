@@ -38,5 +38,9 @@ class Nanotubes(object):
     def parse_coor(line):
         return np.array(list(map(lambda x: float(x), line.strip().split())))
 
+    def __iter__(self):
+        for nan in self.nanotubes:
+            yield nan
+
     def __repr__(self):
         return "<Nanotubes: {0} nanotubes, {1} particles>".format(self.counter, self.counter * self.num)
