@@ -14,7 +14,7 @@ class Particle(object):
 
 
 class NodeParticle(object):
-    def __init__(self, r, order=1):
+    def __init__(self, r):
         """
         :param r: numpy array
         :param order: int,
@@ -26,7 +26,6 @@ class NodeParticle(object):
         self.f_bond = np.array([0, 0, 0])
         self.current_dist = np.array([0, 0])
         self.next_dist = np.array([0, 0])
-        self.order = order
 
     def __repr__(self):
         return "<NodeParticle {0}>".format(self.r)
