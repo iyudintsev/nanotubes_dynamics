@@ -35,7 +35,7 @@ class Nanotubes(object):
 
     @staticmethod
     def parse_coor(line):
-        return np.array(list(map(lambda x: float(x), line.strip().split())))
+        return np.array(list(map(lambda x: 1e-7 * float(x), line.strip().split())))
 
     def __iter__(self):
         for nan in self.nanotubes:

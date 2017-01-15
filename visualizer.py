@@ -9,16 +9,26 @@ class Visualizer(object):
         fig = plt.figure()
         self.ax = fig.add_subplot(111, projection='3d')
 
-    def coordinates(self, nan_limit=None):
+    def get_coor(self, nan_limit=None, nodes=False):
         coordinates = []
         nan_slice = self.nanotubes if nan_limit is None else self.nanotubes[:nan_limit]
         for nan in nan_slice:
-            for p in nan:
-                coordinates.append(p.r)
+            self.simple_iter(nan, coordinates) if not nodes else self.nodes_iter(nan, coordinates)
         return coordinates
 
-    def show(self, nan_limit=None, set_lim=True):
-        coor = list(zip(*self.coordinates(nan_limit)))
+    @staticmethod
+    def simple_iter(nan, coordinates):
+        for p in nan:
+            coordinates.append(p.r)
+
+    @staticmethod
+    def nodes_iter(nan, coordinates):
+        for node in nan.nodes:
+            for p in node:
+                coordinates.append(p.r)
+
+    def show(self, nan_limit=None, set_lim=True, nodes=False):
+        coor = list(zip(*self.get_coor(nan_limit, nodes)))
         xs, ys, zs = coor
         self.ax.scatter(xs, ys, zs)
         self.ax.set_xlabel("x")
