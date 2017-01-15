@@ -14,9 +14,11 @@ class Nanotubes(object):
         self.num = num
         self.counter = 0
         self.nanotubes = []
-        self.read_coor(file_name)
+        self.read_coor_from_file(file_name)
 
-    def read_coor(self, file_name):
+    """ Read Coordinates """
+
+    def read_coor_from_file(self, file_name):
         with open(file_name) as f:
             nan = Nanotube(self.counter, self.num)
             for line in f:
@@ -33,4 +35,3 @@ class Nanotubes(object):
     @staticmethod
     def parse_coor(line):
         return np.array(list(map(lambda x: float(x), line.strip().split())))
-
