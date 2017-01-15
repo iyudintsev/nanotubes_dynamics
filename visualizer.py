@@ -1,4 +1,3 @@
-import time
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from config import L
@@ -29,4 +28,3 @@ class Visualizer(object):
         self.ax.set_ylim([0, L])
         self.ax.set_zlim([0, L])
         plt.show()
-        time.sleep(20)
