@@ -25,9 +25,8 @@ class Nanotubes(object):
             nan = Nanotube(self.counter, self.num)
             for line in f:
                 coor = self.parse_coor(line)
-                try:
-                    nan.create_particle(coor)
-                except NanotubeOverflow:
+                nan.create_particle(coor)
+                if nan.filled:
                     self.nanotubes.append(nan)
                     self.counter += 1
                     nan = Nanotube(self.counter, self.num)
