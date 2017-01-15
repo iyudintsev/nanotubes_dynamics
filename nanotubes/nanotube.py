@@ -23,6 +23,7 @@ class Nanotube(object):
         self.num = 0
         self.particles = []
         self.nodes = []
+        self.filled = False
 
     """ Create Particle """
 
@@ -30,6 +31,10 @@ class Nanotube(object):
         if self.num >= self.total_num:
             raise NanotubeOverflow("Nanotube {0}: total number = {1}".format(self.nan_id, self.total_num))
         self.particles.append(Particle(r))
+        self.num += 1
+        if self.num == self.total_num:
+            self.create_nodes()
+            self.filled = True
 
     """ Create Nodes """
 
