@@ -70,6 +70,7 @@ class Nanotube(object):
         penult_node = self.nodes[self.num - 3]
         last_node = Node(*[NodeParticle(last_r + (penult_node[num].r - penult_r)) for num in xrange(3)])
         self.nodes.append(last_node)
+        self.calc_all_distances()
 
     """ Distance Calculation"""
 
@@ -88,7 +89,7 @@ class Nanotube(object):
             node2 = self.nodes[index+diff]
             for num in xrange(3):
                 r0 = node1[num].r
-                dr = [r0 - node2[ind] for ind in self.get_index(num)]
+                dr = [r0 - node2[ind].r for ind in self.get_index(num)]
                 if diff == 0:
                     node1[num].current_dist = dr
                 if diff == 1:

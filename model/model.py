@@ -18,7 +18,7 @@ class Model(object):
     def set_coordinates(self, coordinates):
         self.nanotubes.set_coordinates(coordinates)
 
-    """ Energy calculation """
+    """ Energy Calculation """
 
     def calc_bonding_energy(self):
         self.bonding_energy = 0
@@ -33,6 +33,11 @@ class Model(object):
                     for p_j in nanotube_j:
                         self.vanderwaals_energy += calc_vanderwaals_energy(p_i, p_j)
         self.vanderwaals_energy *= .5
+
+    """ Forces Calculation"""
+    def calc_bonding_forces(self):
+        for nanotube in self.nanotubes:
+            nanotube.calc_bonding_forces()
 
     """ Magic Methods"""
 
