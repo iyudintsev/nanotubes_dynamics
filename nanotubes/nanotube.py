@@ -10,14 +10,6 @@ SQRT3_3 = SQRT3_6 * 2
 coeff1_3 = 1. / 3
 
 
-class NanotubeOverflow(Exception):
-    pass
-
-
-class NanotubeUnfilled(Exception):
-    pass
-
-
 class Nanotube(object):
     def __init__(self, nan_id, total_num):
         self.nan_id = nan_id
@@ -192,3 +184,11 @@ class Nanotube(object):
 
     def __repr__(self):
         return "<Nanotube {0}>".format(self.nan_id)
+
+
+class NanotubeOverflow(Exception):
+    pass
+
+
+class NanotubeUnfilled(Exception):
+    pass
