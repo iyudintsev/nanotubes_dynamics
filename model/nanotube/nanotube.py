@@ -108,23 +108,25 @@ class Nanotube(object):
         p1.f_bond += f
         p2.f_bond -= f
 
-    def calc_force(self, index):
-        node = self.nodes[index]
+    def calc_force(self, index, next_node=False):
+        node0 = self.nodes[index]
+        node1 = node0 if not next_node else self.nodes[index+1]
         for num in xrange(3):
-            p = node[num]
-            next_p = node[num+1]
-            dist = p.current_dist
-            next_dist = p.next_dist
+            p = node0[num]
+            dist = p.current_dist if not next_node else p.next_dist
             for n, i in enumerate(self.get_index(num)):
-                self.bonding_force(p, p, dist[n])
-                self.bonding_force(p, next_p, next_dist[n])
+                self.bonding_force(p, node1[i], dist[n])
 
     def calc_bonding_forces(self):
         for node in self.nodes:
             for p in node:
                 p.f_bond = np.array([0, 0, 0])
+
         for index in xrange(self.num - 1):
             self.calc_force(index)
+            self.calc_force(index, next_node=True)
+
+        self.calc_force(self.num - 1)
         for num, node in enumerate(self.nodes):
             self.particles[num].f_bond = coeff1_3 * sum([p.f_bond for p in node])
 
@@ -135,21 +137,22 @@ class Nanotube(object):
         dr2 = dr.dot(dr)
         self._bond_energy += .5 * self.k_bond * (dr2 - x0)
 
-    def calc_energy(self, index):
-        node = self.nodes[index]
+    def calc_energy(self, index, next_node=False):
+        node0 = self.nodes[index]
+        node1 = node0 if not next_node else self.nodes[index+1]
         for num in xrange(3):
-            p = node[num]
-            next_p = node[num+1]
-            dist = p.current_dist
-            next_dist = p.next_dist
+            p = node0[num]
+            dist = p.current_dist if not next_node else p.next_dist
             for n, i in enumerate(self.get_index(num)):
-                self.bonding_energy(p, p, dist[n])
-                self.bonding_energy(p, next_p, next_dist[n])
+                self.bonding_force(p, node1[i], dist[n])
 
     def calc_bonding_energy(self):
         self._bond_energy = 0
         for index in xrange(self.num - 1):
             self.calc_energy(index)
+            self.calc_energy(index, next_node=True)
+
+        self.calc_energy(self.num-1)
         return self._bond_energy
 
     """ MD Step """
