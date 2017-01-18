@@ -1,7 +1,7 @@
-from nanotubes import Nanotubes
 from config import file_with_coor
+from nanotubes import Nanotubes
+from utils.parser import Parser
 from visualizer import Visualizer
-from nanotubes.parser import Parser
 
 
 def main():
