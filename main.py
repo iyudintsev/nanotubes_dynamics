@@ -1,5 +1,5 @@
 from config import file_with_coor
-from nanotubes import Nanotubes
+from model.nanotubes import Nanotubes
 from utils.parser import Parser
 from visualizer import Visualizer
 

@@ -1,9 +1,10 @@
+from math import sqrt
+
 import numpy as np
 from numpy import linalg as la
-from math import sqrt
-from particle import Particle, NodeParticle, Node
-from config import k_bond, mass
 
+from config import k_bond, mass
+from particle import Particle, NodeParticle, Node
 
 SQRT3_6 = sqrt(3) / 6
 SQRT3_3 = SQRT3_6 * 2

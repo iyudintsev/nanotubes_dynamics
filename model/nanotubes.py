@@ -1,4 +1,4 @@
-from .nanotube import Nanotube, NanotubeOverflow
+from nanotube import Nanotube
 
 
 class Nanotubes(object):
@@ -22,7 +22,7 @@ class Nanotubes(object):
                 self.counter += 1
                 nan = Nanotube(self.counter, self.num)
         if not all(map(lambda x: x.filled, self.nanotubes)):
-            raise SetCoorException("Can't create nanotubes")
+            raise SetCoorException("Can't create model")
 
     """ Magic Methods"""
 
@@ -34,7 +34,7 @@ class Nanotubes(object):
         return self.nanotubes[index]
 
     def __repr__(self):
-        return "<Nanotubes: {0} nanotubes, {1} particles>".format(self.counter, self.counter * self.num)
+        return "<Nanotubes: {0} model, {1} particles>".format(self.counter, self.counter * self.num)
 
 
 class SetCoorException(Exception):
