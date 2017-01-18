@@ -53,4 +53,4 @@ class Model(object):
     def __repr__(self):
         counter = self.nanotubes.counter
         num = self.nanotubes.num
-        return "<Model: {0} nanotubes, {1} particles>".format(counter, counter* num)
+        return "<Model: {0} nanotubes, {1} particles>".format(counter, counter * num)
