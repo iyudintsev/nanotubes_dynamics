@@ -17,23 +17,17 @@ class Nanotubes(object):
 
     """ Read Coordinates """
 
-    def read_coor_from_file(self, file_name, norm=1):
-        with open(file_name) as f:
-            self.counter += 1
-            nan = Nanotube(self.counter, self.num)
-            for line in f:
-                coor = self.parse_coor(line, norm)
-                nan.create_particle(coor)
-                if nan.filled:
-                    self.nanotubes.append(nan)
-                    self.counter += 1
-                    nan = Nanotube(self.counter, self.num)
+    def set_coordinates(self, coordinates):
+        self.counter += 1
+        nan = Nanotube(self.counter, self.num)
+        for coor in coordinates:
+            nan.create_particle(coor)
+            if nan.filled:
+                self.nanotubes.append(nan)
+                self.counter += 1
+                nan = Nanotube(self.counter, self.num)
         if not all(map(lambda x: x.filled, self.nanotubes)):
             raise ReadCoordinatesException("Can't create nanotubes")
-
-    @staticmethod
-    def parse_coor(line, norm):
-        return np.array(list(map(lambda x: norm * float(x), line.strip().split())))
 
     """ Magic Methods"""
 
