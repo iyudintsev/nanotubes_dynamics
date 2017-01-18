@@ -37,6 +37,8 @@ class Nanotubes(object):
     def parse_coor(line):
         return np.array(list(map(lambda x: 1e-7 * float(x), line.strip().split())))  # hack, 1e-7
 
+    """ Magic Methods"""
+
     def __iter__(self):
         for nan in self.nanotubes:
             yield nan

@@ -2,6 +2,7 @@ import numpy as np
 from numpy import linalg as la
 from math import sqrt
 from particle import Particle, NodeParticle, Node
+from config import k_bond
 
 
 SQRT3_6 = sqrt(3) / 6
@@ -24,6 +25,8 @@ class Nanotube(object):
         self.particles = []
         self.nodes = []
         self.filled = False
+
+        self.k_bond = k_bond
 
     """ Create Particle """
 
@@ -68,6 +71,55 @@ class Nanotube(object):
         penult_node = self.nodes[self.num - 3]
         last_node = Node(*[NodeParticle(last_r + (penult_node[num].r - penult_r)) for num in xrange(3)])
         self.nodes.append(last_node)
+
+    """ Distance Calculation"""
+
+    @staticmethod
+    def get_index(index):
+        if index == 0:
+            return 1, 2
+        if index == 1:
+            return 2, 0
+        if index == 2:
+            return 0, 1
+
+    def calc_distances(self, index):
+        node1 = self.nodes[index]
+        for diff in (0, 1):
+            node2 = self.nodes[index+diff]
+            for num in xrange(3):
+                r0 = node1[num].r
+                dr = [r0 - node2[ind] for ind in self.get_index(num)]
+                if diff == 0:
+                    node1[num].current_dist = dr
+                if diff == 1:
+                    node2[num].next_dist = dr
+
+    def calc_all_distances(self):
+        for index in xrange(self.num - 1):
+            self.calc_distances(index)
+
+    """ Force Calculation """
+
+    def bonding_force(self, p1, p2, x0):
+        dr = p1.r - p2.r
+        dr_norm = la.norm(dr)
+        f = - self.k_bond * (dr - x0) / dr_norm * dr
+        p1.f_bond += f
+        p2.f_bond -= f
+
+    def calc_force(self, index):
+        node = self.nodes[index]
+        for num in xrange(3):
+            p = node[num]
+            next_p = node[num+1]
+            dist = p.current_dist
+            next_dist = p.next_dist
+            for n, i in enumerate(self.get_index(num)):
+                self.bonding_force(p, p, dist[n])
+                self.bonding_force(p, next_p, next_dist[n])
+
+    """ Magic Methods """
 
     def __iter__(self):
         for p in self.particles:
