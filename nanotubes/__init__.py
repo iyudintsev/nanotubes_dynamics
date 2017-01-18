@@ -7,24 +7,22 @@ class ReadCoordinatesException(Exception):
 
 
 class Nanotubes(object):
-    def __init__(self, num, file_name=None):
+    def __init__(self, num):
         """
         :param num: int, number of particles in nanotube
         """
         self.num = num
         self.counter = 0
         self.nanotubes = []
-        if file_name:
-            self.read_coor_from_file(file_name)
 
     """ Read Coordinates """
 
-    def read_coor_from_file(self, file_name):
+    def read_coor_from_file(self, file_name, norm=1):
         with open(file_name) as f:
             self.counter += 1
             nan = Nanotube(self.counter, self.num)
             for line in f:
-                coor = self.parse_coor(line)
+                coor = self.parse_coor(line, norm)
                 nan.create_particle(coor)
                 if nan.filled:
                     self.nanotubes.append(nan)
@@ -34,8 +32,8 @@ class Nanotubes(object):
             raise ReadCoordinatesException("Can't create nanotubes")
 
     @staticmethod
-    def parse_coor(line):
-        return np.array(list(map(lambda x: 1e-7 * float(x), line.strip().split())))  # hack, 1e-7
+    def parse_coor(line, norm):
+        return np.array(list(map(lambda x: norm * float(x), line.strip().split())))
 
     """ Magic Methods"""
 

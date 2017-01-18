@@ -4,7 +4,8 @@ from visualizer import Visualizer
 
 
 def main():
-    nanotubes = Nanotubes(100, file_with_coor)
+    nanotubes = Nanotubes(100)
+    nanotubes.read_coor_from_file(file_with_coor, norm=1e-7)
     view = Visualizer(nanotubes)
     view.show(nodes=True)
 
