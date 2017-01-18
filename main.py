@@ -1,15 +1,15 @@
 from config import file_with_coor
-from model.nanotubes import Nanotubes
+from model import Model
 from utils.parser import Parser
 from utils.visualizer import Visualizer
 
 
 def main():
-    nanotubes = Nanotubes(100)
     parser = Parser(file_with_coor, norm=1e-7)
-    nanotubes.set_coordinates(parser.coordinates)
+    model = Model(num=100)
+    model.set_coordinates(parser.coordinates)
 
-    view = Visualizer(nanotubes)
+    view = Visualizer(model.nanotubes)
     view.show(nodes=True)
 
 if __name__ == "__main__":

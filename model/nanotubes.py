@@ -4,13 +4,14 @@ from nanotube import Nanotube
 class Nanotubes(object):
     def __init__(self, num):
         """
-        :param num: int, number of particles in nanotube
+        Constructor
+        :param num: int, number of particles in one nanotube
         """
         self.num = num
         self.counter = 0
         self.nanotubes = []
 
-    """ Read Coordinates """
+    """ Set Coordinates """
 
     def set_coordinates(self, coordinates):
         self.counter += 1
@@ -34,7 +35,7 @@ class Nanotubes(object):
         return self.nanotubes[index]
 
     def __repr__(self):
-        return "<Nanotubes: {0} model, {1} particles>".format(self.counter, self.counter * self.num)
+        return "<Nanotubes: {0} items, {1} particles>".format(self.counter, self.counter * self.num)
 
 
 class SetCoorException(Exception):
