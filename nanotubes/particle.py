@@ -5,6 +5,7 @@ class Particle(object):
     def __init__(self, r):
         self.r = r
         self.v = np.array([0., 0., 0.])
+        self.f_bond = np.array([0., 0., 0.])
         self.f_coul = np.array([0., 0., 0.])
         self.f_coul_corr = np.array([0., 0., 0.])
         self.f_lg = np.array([0., 0., 0.])

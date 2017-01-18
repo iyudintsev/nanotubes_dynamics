@@ -26,7 +26,9 @@ class Nanotube(object):
         self.nodes = []
         self.filled = False
 
+        """ bonding """
         self.k_bond = k_bond
+        self._bond_energy = 0
 
     """ Create Particle """
 
@@ -99,7 +101,7 @@ class Nanotube(object):
         for index in xrange(self.num - 1):
             self.calc_distances(index)
 
-    """ Force Calculation """
+    """ Bonding Force Calculation """
 
     def bonding_force(self, p1, p2, x0):
         dr = p1.r - p2.r
@@ -118,6 +120,32 @@ class Nanotube(object):
             for n, i in enumerate(self.get_index(num)):
                 self.bonding_force(p, p, dist[n])
                 self.bonding_force(p, next_p, next_dist[n])
+
+    def calc_forces(self):
+        for index in xrange(self.num - 1):
+            self.calc_force(index)
+
+    """ Bonding Energy Calculation """
+
+    def bonding_energy(self, p1, p2, x0):
+        dr = p1.r - p2.r
+        dr2 = dr.dot(dr)
+        self._bond_energy += .5 * self.k_bond * (dr2 - x0)
+
+    def calc_energy(self, index):
+        node = self.nodes[index]
+        for num in xrange(3):
+            p = node[num]
+            next_p = node[num+1]
+            dist = p.current_dist
+            next_dist = p.next_dist
+            for n, i in enumerate(self.get_index(num)):
+                self.bonding_energy(p, p, dist[n])
+                self.bonding_energy(p, next_p, next_dist[n])
+
+    def calc_energies(self):
+        for index in xrange(self.num - 1):
+            self.calc_energy(index)
 
     """ Magic Methods """
 
