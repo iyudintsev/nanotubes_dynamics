@@ -24,9 +24,11 @@ class NodeParticle(object):
             2: last particle
         """
         self.r = r
-        self.f_bond = np.array([0, 0, 0])
-        self.current_dist = [0, 0]
-        self.next_dist = [0, 0]
+        self.v = np.array([0., 0., 0.])
+        self.f = np.array([0., 0., 0.])
+        self.f_bond = np.array([0., 0., 0.])
+        self.current_dist = [0., 0.]
+        self.next_dist = [0., 0.]
 
     def __repr__(self):
         return "<NodeParticle {0}>".format(self.r)

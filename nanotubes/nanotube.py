@@ -2,7 +2,7 @@ import numpy as np
 from numpy import linalg as la
 from math import sqrt
 from particle import Particle, NodeParticle, Node
-from config import k_bond
+from config import k_bond, mass
 
 
 SQRT3_6 = sqrt(3) / 6
@@ -30,6 +30,9 @@ class Nanotube(object):
         """ bonding """
         self.k_bond = k_bond
         self._bond_energy = 0
+
+        """ MD """
+        self._m = 1. / mass
 
     """ Create Particle """
 
@@ -122,7 +125,7 @@ class Nanotube(object):
                 self.bonding_force(p, p, dist[n])
                 self.bonding_force(p, next_p, next_dist[n])
 
-    def calc_forces(self):
+    def calc_bonding_forces(self):
         for node in self.nodes:
             for p in node:
                 p.f_bond = np.array([0, 0, 0])
@@ -149,10 +152,35 @@ class Nanotube(object):
                 self.bonding_energy(p, p, dist[n])
                 self.bonding_energy(p, next_p, next_dist[n])
 
-    def calc_energies(self):
+    def calc_bonding_energy(self):
         self._bond_energy = 0
         for index in xrange(self.num - 1):
             self.calc_energy(index)
+        return self._bond_energy
+
+    """ MD Step """
+
+    def update_forces(self):
+        for num, p in enumerate(self.particles):
+            f = coeff1_3 * p.f
+            for node_particle in self.nodes[num]:
+                node_particle.f = f
+
+    def step(self, h, total_max_step):
+        self.update_forces()
+        max_step = 0
+        for node in self.nodes:
+            dr = np.array([0., 0., 0.])
+            for p in node:
+                dr += h * p.v + .5 * h * h * self._m * p.f
+                dr2 = dr.dot(dr)
+                if dr2 > max_step:
+                    max_step = dr2
+                    p.r += dr
+                    p.v += h * self._m * p.f
+        max_step = sqrt(max_step)
+        return max_step if max_step > total_max_step else total_max_step
+
 
     """ Magic Methods """
 
