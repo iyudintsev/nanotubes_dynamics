@@ -1,6 +1,7 @@
 from nanotubes import Nanotubes
 from vanderwaals import calc_vanderwaals_energy, calc_vanderwaals_forces
 
+
 class Model(object):
     def __init__(self, num):
         """
@@ -35,6 +36,7 @@ class Model(object):
         self.vanderwaals_energy *= .5
 
     """ Forces Calculation"""
+    
     def calc_bonding_forces(self):
         for nanotube in self.nanotubes:
             nanotube.calc_bonding_forces()
