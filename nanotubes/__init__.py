@@ -1,10 +1,6 @@
 from .nanotube import Nanotube, NanotubeOverflow
 
 
-class SetCoorException(Exception):
-    pass
-
-
 class Nanotubes(object):
     def __init__(self, num):
         """
@@ -39,3 +35,7 @@ class Nanotubes(object):
 
     def __repr__(self):
         return "<Nanotubes: {0} nanotubes, {1} particles>".format(self.counter, self.counter * self.num)
+
+
+class SetCoorException(Exception):
+    pass
