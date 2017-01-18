@@ -1,7 +1,7 @@
 from .nanotube import Nanotube, NanotubeOverflow
 
 
-class ReadCoordinatesException(Exception):
+class SetCoorException(Exception):
     pass
 
 
@@ -26,7 +26,7 @@ class Nanotubes(object):
                 self.counter += 1
                 nan = Nanotube(self.counter, self.num)
         if not all(map(lambda x: x.filled, self.nanotubes)):
-            raise ReadCoordinatesException("Can't create nanotubes")
+            raise SetCoorException("Can't create nanotubes")
 
     """ Magic Methods"""
 
