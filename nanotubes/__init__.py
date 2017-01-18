@@ -1,4 +1,3 @@
-import numpy as np
 from .nanotube import Nanotube, NanotubeOverflow
 
 
