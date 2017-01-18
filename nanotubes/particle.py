@@ -39,8 +39,8 @@ class Node(object):
         self.particles = {0: p0, 1: p1, 2: p2}
 
     def __iter__(self):
-        for key, p in self.particles.iteritems():
-            yield p
+        for index in xrange(3):
+            yield self.particles[index]
 
     def __getitem__(self, index):
         return self.particles[index]
