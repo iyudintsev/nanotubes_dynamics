@@ -1,5 +1,5 @@
 from nanotubes import Nanotubes
-from vanderwaals import calc_vanderwaals_energy
+from vanderwaals import calc_vanderwaals_energy, calc_vanderwaals_forces
 
 class Model(object):
     def __init__(self, num):
@@ -38,6 +38,13 @@ class Model(object):
     def calc_bonding_forces(self):
         for nanotube in self.nanotubes:
             nanotube.calc_bonding_forces()
+
+    def calc_vanderwaals_forces(self):
+        for nanotube_i in self.nanotubes:
+            for p_i in nanotube_i:
+                for nanotube_j in self.nanotubes:
+                    for p_j in nanotube_j:
+                        calc_vanderwaals_forces(p_i, p_j)
 
     """ Magic Methods"""
 

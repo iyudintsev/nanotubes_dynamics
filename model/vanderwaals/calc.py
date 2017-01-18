@@ -1,7 +1,7 @@
 from lg_modified import force, energy
 
 
-def calc_vanderwaals_force(p1, p2):
+def calc_vanderwaals_forces(p1, p2):
     """
     Force Calculation
     :param p1: Particle
