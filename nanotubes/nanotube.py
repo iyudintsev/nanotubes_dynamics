@@ -7,6 +7,7 @@ from config import k_bond
 
 SQRT3_6 = sqrt(3) / 6
 SQRT3_3 = SQRT3_6 * 2
+coeff1_3 = 1. / 3
 
 
 class NanotubeOverflow(Exception):
@@ -122,8 +123,13 @@ class Nanotube(object):
                 self.bonding_force(p, next_p, next_dist[n])
 
     def calc_forces(self):
+        for node in self.nodes:
+            for p in node:
+                p.f_bond = np.array([0, 0, 0])
         for index in xrange(self.num - 1):
             self.calc_force(index)
+        for num, node in enumerate(self.nodes):
+            self.particles[num].f_bond = coeff1_3 * sum([p.f_bond for p in node])
 
     """ Bonding Energy Calculation """
 
@@ -144,6 +150,7 @@ class Nanotube(object):
                 self.bonding_energy(p, next_p, next_dist[n])
 
     def calc_energies(self):
+        self._bond_energy = 0
         for index in xrange(self.num - 1):
             self.calc_energy(index)
 
