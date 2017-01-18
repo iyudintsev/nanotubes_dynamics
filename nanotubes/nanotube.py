@@ -181,7 +181,6 @@ class Nanotube(object):
         max_step = sqrt(max_step)
         return max_step if max_step > total_max_step else total_max_step
 
-
     """ Magic Methods """
 
     def __iter__(self):
