@@ -1,5 +1,5 @@
 from nanotubes import Nanotubes
-
+from vanderwaals import calc_vanderwaals_energy
 
 class Model(object):
     def __init__(self, num):
@@ -9,5 +9,34 @@ class Model(object):
         """
         self.nanotubes = Nanotubes(num)
 
+        """ Energy """
+        self.total_energy = 0
+        self.bonding_energy = 0
+        self.vanderwaals_energy = 0
+        self.coul_energy = 0
+
     def set_coordinates(self, coordinates):
         self.nanotubes.set_coordinates(coordinates)
+
+    """ Energy calculation """
+
+    def calc_bonding_energy(self):
+        self.bonding_energy = 0
+        for nanotube in self.nanotubes:
+            self.bonding_energy += nanotube.calc_bonding_energy()
+
+    def calc_vanderwaals_energy(self):
+        self.vanderwaals_energy = 0
+        for nanotube_i in self.nanotubes:
+            for p_i in nanotube_i:
+                for nanotube_j in self.nanotubes:
+                    for p_j in nanotube_j:
+                        self.vanderwaals_energy += calc_vanderwaals_energy(p_i, p_j)
+        self.vanderwaals_energy *= .5
+
+    """ Magic Methods"""
+
+    def __repr__(self):
+        counter = self.nanotubes.counter
+        num = self.nanotubes.num
+        return "<Model: {0} nanotubes, {1} particles>".format(counter, counter* num)
