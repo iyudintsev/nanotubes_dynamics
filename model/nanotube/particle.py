@@ -18,13 +18,10 @@ class NodeParticle(object):
     def __init__(self, r):
         """
         :param r: numpy array
-        :param order: int,
-            0: first particle
-            1: simple particle
-            2: last particle
         """
         self.r = r
         self.v = np.array([0., 0., 0.])
+        self.q = 0
         self.f = np.array([0., 0., 0.])
         self.f_bond = np.array([0., 0., 0.])
         self.current_dist = [0., 0.]
