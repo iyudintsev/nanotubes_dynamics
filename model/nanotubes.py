@@ -10,11 +10,11 @@ class Nanotubes(object):
         self.num = num
         self.counter = 0
         self.nanotubes = []
+        self.particle_num = None
 
     """ Set Coordinates """
 
     def set_coordinates(self, coordinates):
-        self.counter += 1
         nan = Nanotube(self.counter, self.num)
         for coor in coordinates:
             nan.create_particle(coor)
@@ -24,6 +24,7 @@ class Nanotubes(object):
                 nan = Nanotube(self.counter, self.num)
         if not all(map(lambda x: x.filled, self.nanotubes)):
             raise SetCoorException("Can't create model")
+        self.particle_num = (self.counter + 1) * self.num
 
     """ Magic Methods"""
 

@@ -26,7 +26,7 @@ def calc_coul_energy(nanotubes):
     return e_self + e_real + e_field
 
 
-def cal_coul_forces(nanotubes):
+def calc_coul_forces(nanotubes):
     for nanotube_i in nanotubes:
         for p_i in nanotube_i:
             f_real = np.array([0., 0., 0.])
@@ -46,3 +46,18 @@ def cal_coul_forces(nanotubes):
             f_real *= p_i.q
             f_field = p_i.q * EVAL
             p_i.f_coul = f_real + + p_i.f_coul_corr + f_field
+
+
+def calc_potential(nanotubes):
+    n = nanotubes.particle_num
+    pm = np.zeros(shape=(n, n))
+    for nanotube_i in nanotubes:
+        for p_i in nanotube_i:
+            for nanotube_j in nanotubes:
+                for p_j in nanotube_j:
+                    if p_i.id == p_j.id:
+                        pm[p_i.id][p_i.id] = -2. * ALPHA_SQRT_PI + 2. / A_LG
+                    vdr = p_i.r - p_j.r
+                    dr = la.norm(vdr)
+                    if dr > 0:
+                        pm[p_i.id][p_j.id] = (erfc(ALPHA * dr) / dr) * (1. - exp(-ALPHA_CUTOFF * dr))

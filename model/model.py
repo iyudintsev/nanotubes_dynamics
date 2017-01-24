@@ -32,7 +32,7 @@ class Model(object):
             for p_i in nanotube_i:
                 for nanotube_j in self.nanotubes:
                     for p_j in nanotube_j:
-                        self.vanderwaals_energy += calc_vanderwaals_energy(p_i, p_j)
+                        self.vanderwaals_energy += calc_vanderwaals_energy(p_i, p_j)  # TODO fix duplication problem
         self.vanderwaals_energy *= .5
 
     """ Forces Calculation"""
@@ -46,7 +46,7 @@ class Model(object):
             for p_i in nanotube_i:
                 for nanotube_j in self.nanotubes:
                     for p_j in nanotube_j:
-                        calc_vanderwaals_forces(p_i, p_j)
+                        calc_vanderwaals_forces(p_i, p_j)  # TODO fix duplication problem
 
     """ Magic Methods"""
 

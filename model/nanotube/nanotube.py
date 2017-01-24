@@ -32,7 +32,8 @@ class Nanotube(object):
     def create_particle(self, r):
         if self.num >= self.total_num:
             raise NanotubeOverflow("Nanotube {0}: total number = {1}".format(self.nan_id, self.total_num))
-        self.particles.append(Particle(r))
+        particle_id = self.total_num * self.nan_id + self.num
+        self.particles.append(Particle(r, particle_id))
         self.num += 1
         if self.num == self.total_num:
             self.create_nodes()

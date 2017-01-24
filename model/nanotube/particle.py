@@ -2,7 +2,8 @@ import numpy as np
 
 
 class Particle(object):
-    def __init__(self, r):
+    def __init__(self, r, particle_id):
+        self.id = particle_id
         self.r = r
         self.v = np.array([0., 0., 0.])
         self.f_bond = np.array([0., 0., 0.])
