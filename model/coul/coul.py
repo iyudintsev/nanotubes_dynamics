@@ -4,7 +4,7 @@ from numpy import linalg as la
 from config import L
 from model.coul.error import EwaldConditionError
 
-EVAL = np.array([0., 1000., 0.])  # Field
+EVAL = np.array([1000., 0., 0.])  # Field
 ALPHA = 5e5
 ALPHA2 = ALPHA * ALPHA
 ALPHA_SQRT_PI = ALPHA / sqrt(pi)
