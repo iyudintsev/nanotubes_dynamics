@@ -1,0 +1,2 @@
+class EwaldConditionError(Exception):
+    pass

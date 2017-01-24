@@ -1,7 +1,8 @@
 import numpy as np
-from math import sqrt, pi, erfc, exp
+from math import sqrt, pi, erfc, exp, log
 from numpy import linalg as la
-
+from config import L
+from model.coul.error import EwaldConditionError
 
 EVAL = np.array([0., 1000., 0.])  # Field
 ALPHA = 5e5
@@ -9,6 +10,13 @@ ALPHA2 = ALPHA * ALPHA
 ALPHA_SQRT_PI = ALPHA / sqrt(pi)
 A_LG = (7.1 / 2) * 1e-8
 ALPHA_CUTOFF = 1e7
+
+
+def check_coul_condition():
+    e = 1e-4
+    coefficient = int((ALPHA * L / pi) * sqrt(-log(e)))
+    if coefficient > 0:
+        raise EwaldConditionError()
 
 
 def calc_coul_energy(nanotubes):
