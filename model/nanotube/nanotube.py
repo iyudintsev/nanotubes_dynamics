@@ -5,6 +5,7 @@ from numpy import linalg as la
 
 from config import k_bond, mass
 from particle import Particle, NodeParticle, Node
+from error import NanotubeOverflow, NanotubeUnfilled
 
 SQRT3_6 = sqrt(3) / 6
 SQRT3_3 = SQRT3_6 * 2
@@ -191,10 +192,3 @@ class Nanotube(object):
     def __repr__(self):
         return "<Nanotube {0}>".format(self.nan_id)
 
-
-class NanotubeOverflow(Exception):
-    pass
-
-
-class NanotubeUnfilled(Exception):
-    pass
