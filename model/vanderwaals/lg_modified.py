@@ -41,7 +41,7 @@ def energy(r_input):
         dr = r.copy()
         r *= LG_CUTOFF / la.norm(r)
         dr = dr - r
-        u -= dr * force(r)
+        u -= dr.dot(force(r))
     ratio2 = LG_SIGMA2 / r.dot(r)
     ratio6 = ratio2 * ratio2 * ratio2
     ratio12 = ratio6 * ratio6
