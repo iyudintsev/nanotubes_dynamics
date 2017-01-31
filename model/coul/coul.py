@@ -86,7 +86,17 @@ class ChargeCalc(object):
 
         self.am = np.zeros(shape=(self.n, self.n))
         for nanotube_i in self.nanotubes:
-            j = nanotube_i[-1].id
-            for i in xrange(nanotube_i[0].id, j + 1):
-                self.am[i][j] = 1e6
-        # TODO fill self.am matrix
+            n_last = nanotube_i[-1].id
+            for i in xrange(nanotube_i[0].id, n_last):
+                for j in xrange(self.n):
+                    self.am[i][j] = self.pm[i][j] - self.pm[i][n_last]
+                self.am[i][n_last] = 1e6
+
+    def calc_charges(self):
+        self.calc_potential()
+        self.calc_diff_matrix()
+        _am = la.inv(self.am)
+        qv = _am.dot(self.ev)
+        for nanotube_i in self.nanotubes:
+            for p_i in nanotube_i:
+                p_i.q = qv[p_i.id]
