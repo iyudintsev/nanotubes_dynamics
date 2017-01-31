@@ -1,5 +1,6 @@
 from nanotubes import Nanotubes
 from vanderwaals import calc_vanderwaals_energy, calc_vanderwaals_forces
+from coul import ChargeCalc
 
 
 class Model(object):
@@ -9,6 +10,7 @@ class Model(object):
         :param num: int, number of particles in one nanotube
         """
         self.nanotubes = Nanotubes(num)
+        self.charge_calc = ChargeCalc(self.nanotubes)
 
         """ Energy """
         self.total_energy = 0
