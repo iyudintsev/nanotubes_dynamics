@@ -56,16 +56,37 @@ def calc_coul_forces(nanotubes):
             p_i.f_coul = f_real + + p_i.f_coul_corr + f_field
 
 
-def calc_potential(nanotubes):
-    n = nanotubes.particle_num
-    pm = np.zeros(shape=(n, n))
-    for nanotube_i in nanotubes:
-        for p_i in nanotube_i:
-            for nanotube_j in nanotubes:
-                for p_j in nanotube_j:
-                    if p_i.id == p_j.id:
-                        pm[p_i.id][p_i.id] = -2. * ALPHA_SQRT_PI + 2. / A_LG
-                    vdr = p_i.r - p_j.r
-                    dr = la.norm(vdr)
-                    if dr > 0:
-                        pm[p_i.id][p_j.id] = (erfc(ALPHA * dr) / dr) * (1. - exp(-ALPHA_CUTOFF * dr))
+class ChargeCalc(object):
+    def __init__(self, nanotubes):
+        self.nanotubes = nanotubes
+        self.n = nanotubes.particle_num
+        self.pm = None
+        self.am = None
+        self.ev = None
+
+    def calc_potential(self):
+        self.pm = np.zeros(shape=(self.n, self.n))
+        for nanotube_i in self.nanotubes:
+            for p_i in nanotube_i:
+                for nanotube_j in self.nanotubes:
+                    for p_j in nanotube_j:
+                        if p_i.id == p_j.id:
+                            self.pm[p_i.id][p_i.id] = -2. * ALPHA_SQRT_PI + 2. / A_LG
+                        vdr = p_i.r - p_j.r
+                        dr = la.norm(vdr)
+                        if dr > 0:
+                            self.pm[p_i.id][p_j.id] = (erfc(ALPHA * dr) / dr) * (1. - exp(-ALPHA_CUTOFF * dr))
+
+    def calc_diff_matrix(self):
+        self.ev = np.array([0. for _ in xrange(self.n)])
+        for nanotube_i in self.nanotubes:
+            p_last = nanotube_i[-1]
+            for p_i in nanotube_i[:-1]:
+                self.ev[p_i.id] = EVAL * (p_i.r - p_last.r)
+
+        self.am = np.zeros(shape=(self.n, self.n))
+        for nanotube_i in self.nanotubes:
+            j = nanotube_i[-1].id
+            for i in xrange(nanotube_i[0].id, j + 1):
+                self.am[i][j] = 1e6
+        # TODO fill self.am matrix
