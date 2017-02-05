@@ -9,7 +9,6 @@ def calc_vanderwaals_forces(p1, p2):
     """
     f_lg = force(p1.r - p2.r)
     p1.f_lg = f_lg
-    # p2.f_lg = -f_lg
 
 
 def calc_vanderwaals_energy(p1, p2):

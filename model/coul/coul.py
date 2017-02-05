@@ -58,6 +58,7 @@ def calc_coul_forces(nanotubes):
 
 class ChargeCalc(object):
     def __init__(self, nanotubes):
+
         self.nanotubes = nanotubes
         self.n = nanotubes.particle_num
         self.pm = None
@@ -92,7 +93,7 @@ class ChargeCalc(object):
                     self.am[i][j] = self.pm[i][j] - self.pm[i][n_last]
                 self.am[i][n_last] = 1e6
 
-    def calc_charges(self):
+    def run(self):
         self.calc_potential()
         self.calc_diff_matrix()
         _am = la.inv(self.am)

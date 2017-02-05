@@ -74,7 +74,7 @@ class Nanotube(object):
         self.nodes.append(last_node)
         self.calc_all_distances()
 
-    """ Distance Calculation"""
+    """ Distance Calculation """
 
     @staticmethod
     def get_index(index):
@@ -129,8 +129,6 @@ class Nanotube(object):
             self.calc_force(index, next_node=True)
 
         self.calc_force(self.num - 1)
-        for num, node in enumerate(self.nodes):
-            self.particles[num].f_bond = coeff1_3 * sum([p.f_bond for p in node])
 
     """ Bonding Energy Calculation """
 
@@ -165,6 +163,14 @@ class Nanotube(object):
             for node_particle in self.nodes[num]:
                 node_particle.f = f
 
+    @staticmethod
+    def get_coor_from_node(node):
+        return coeff1_3 * sum([p.r for p in node])
+
+    def update_coordinates(self):
+        for num, node in enumerate(self.nodes):
+            self.particles[num].r = self.get_coor_from_node(node)
+
     def step(self, h, total_max_step):
         self.update_forces()
         max_step = 0
@@ -178,6 +184,7 @@ class Nanotube(object):
                     p.r += dr
                     p.v += h * self._m * p.f
         max_step = sqrt(max_step)
+        self.update_coordinates()
         return max_step if max_step > total_max_step else total_max_step
 
     """ Magic Methods """

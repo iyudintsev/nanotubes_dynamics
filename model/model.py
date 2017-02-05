@@ -1,6 +1,7 @@
 from nanotubes import Nanotubes
 from vanderwaals import calc_vanderwaals_energy, calc_vanderwaals_forces
-from coul import ChargeCalc
+from coul import ChargeCalc, calc_coul_energy, calc_coul_forces, check_coul_condition
+from config import h_max, h_coul, time_of_calc, time_of_repr
 
 
 class Model(object):
@@ -10,7 +11,13 @@ class Model(object):
         :param num: int, number of particles in one nanotube
         """
         self.nanotubes = Nanotubes(num)
+        check_coul_condition()
         self.charge_calc = ChargeCalc(self.nanotubes)
+        self.h = h_max  # current step
+        self.t = 0  # current time
+        self.t_coul = h_coul  # control process charge calc
+        self.t_repr = time_of_repr  # control of repr
+        self.repr_now = False
 
         """ Energy """
         self.total_energy = 0
@@ -37,6 +44,9 @@ class Model(object):
                         self.vanderwaals_energy += calc_vanderwaals_energy(p_i, p_j)  # TODO fix duplication problem
         self.vanderwaals_energy *= .5
 
+    def calc_coul_energy(self):
+        self.coul_energy = calc_coul_energy(self.nanotubes)
+
     """ Forces Calculation"""
     
     def calc_bonding_forces(self):
@@ -50,6 +60,25 @@ class Model(object):
                     for p_j in nanotube_j:
                         calc_vanderwaals_forces(p_i, p_j)  # TODO fix duplication problem
 
+    def calc_coul_forces(self):
+        calc_coul_forces(self.nanotubes)
+
+    """ Process of Calculation """
+
+    def calc(self):
+        while self.t < time_of_calc:
+            if self.t_coul >= h_coul:
+                self.t_coul -= h_coul
+                self.charge_calc.run()
+                self.calc_coul_forces()
+            self.t_coul += self.h
+
+            self.calc_vanderwaals_forces()
+            max_step = 0
+            for nan in self.nanotubes:
+                max_step = nan.step(self.h, max_step)
+            # FIRE
+            
     """ Magic Methods"""
 
     def __repr__(self):
