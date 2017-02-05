@@ -5,7 +5,7 @@ file_with_coor = "coordinates/5n20p.txt"
 
 """ Model Parameters"""
 L = 200e-7
-LV = [x for x in [0, L]]  # border
+LV = [0, L]  # border
 particles_number = 20
 h_max = 5e-13  # max step
 h_coul = 1e-9  # coul step
