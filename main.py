@@ -6,8 +6,8 @@ from utils.visualizer import Visualizer
 
 def main():
     parser = Parser(file_with_coor, norm=1e-7)
-    model = Model(num=100)
-    model.set_coordinates(parser.coordinates)
+    model = Model(num=100, coordinates=parser.coordinates)
+    model.calc()
 
     view = Visualizer(model.nanotubes)
     view.show(nodes=True)

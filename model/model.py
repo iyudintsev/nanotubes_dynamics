@@ -7,12 +7,14 @@ from config import fire_alpha0, fire_n_min, fire_f_alpha, fire_f_dec, fire_f_inc
 
 
 class Model(object):
-    def __init__(self, num):
+    def __init__(self, num, coordinates):
         """
         Constructor
         :param num: int, number of particles in one nanotube
         """
         self.nanotubes = Nanotubes(num)
+        self._set_coordinates(coordinates)
+
         check_coul_condition()
         self.charge_calc = ChargeCalc(self.nanotubes)
         self.h = h_max  # current step
@@ -32,7 +34,7 @@ class Model(object):
         self.vanderwaals_energy = 0
         self.coul_energy = 0
 
-    def set_coordinates(self, coordinates):
+    def _set_coordinates(self, coordinates):
         self.nanotubes.set_coordinates(coordinates)
 
     """ Energy Calculation """

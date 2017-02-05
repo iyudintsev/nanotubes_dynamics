@@ -1,11 +1,11 @@
 import numpy as np
 from math import sqrt, pi, erfc, exp, log
 from numpy import linalg as la
-from config import L
+from config import L_VAL
 from model.coul.error import EwaldConditionError
 
 EVAL = np.array([1000., 0., 0.])  # Field
-ALPHA = 5e5
+ALPHA = .5e5
 ALPHA2 = ALPHA * ALPHA
 ALPHA_SQRT_PI = ALPHA / sqrt(pi)
 A_LG = (7.1 / 2) * 1e-8
@@ -14,8 +14,9 @@ ALPHA_CUTOFF = 1e7
 
 def check_coul_condition():
     e = 1e-4
-    coefficient = int((ALPHA * L / pi) * sqrt(-log(e)))
+    coefficient = int((ALPHA * L_VAL / pi) * sqrt(-log(e)))
     if coefficient > 0:
+        print coefficient
         raise EwaldConditionError()
 
 
@@ -66,6 +67,7 @@ class ChargeCalc(object):
         self.ev = None
 
     def calc_potential(self):
+        print self.n
         self.pm = np.zeros(shape=(self.n, self.n))
         for nanotube_i in self.nanotubes:
             for p_i in nanotube_i:
