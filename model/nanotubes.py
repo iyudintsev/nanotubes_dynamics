@@ -30,7 +30,7 @@ class Nanotubes(object):
                 nan = Nanotube(self.counter, self.num)
         if not all(map(lambda x: x.filled, self.nanotubes)):
             raise SetCoorException("Can't create model")
-        self.particle_num = (self.counter + 1) * self.num
+        self.particle_num = self.counter * self.num
 
     """ Magic Methods"""
 

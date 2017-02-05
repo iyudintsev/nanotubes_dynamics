@@ -109,9 +109,13 @@ class Model(object):
     """ Process of Calculation """
 
     def calc(self):
+        print "step 0"
         self.charge_calc.run()
+        print "\t charges calculated"
         self.calc_coul_forces()
+        print "\t coul forces calculated"
         self.calc_vanderwaals_forces()
+        print "\t vanderwaals forces calculated"
 
         while self.t < time_of_calc:
             max_step = 0

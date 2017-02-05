@@ -67,7 +67,6 @@ class ChargeCalc(object):
         self.ev = None
 
     def calc_potential(self):
-        print self.n
         self.pm = np.zeros(shape=(self.n, self.n))
         for nanotube_i in self.nanotubes:
             for p_i in nanotube_i:
@@ -85,7 +84,7 @@ class ChargeCalc(object):
         for nanotube_i in self.nanotubes:
             p_last = nanotube_i[-1]
             for p_i in nanotube_i[:-1]:
-                self.ev[p_i.id] = EVAL * (p_i.r - p_last.r)
+                self.ev[p_i.id] = np.dot(EVAL, p_i.r - p_last.r)
 
         self.am = np.zeros(shape=(self.n, self.n))
         for nanotube_i in self.nanotubes:
