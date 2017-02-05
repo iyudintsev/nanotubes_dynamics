@@ -1,7 +1,7 @@
 import numpy as np
 from math import sqrt, pi, erfc, exp, log
 from numpy import linalg as la
-from config import L_VAL
+from config import L
 from model.coul.error import EwaldConditionError
 
 EVAL = np.array([1000., 0., 0.])  # Field
@@ -14,7 +14,7 @@ ALPHA_CUTOFF = 1e7
 
 def check_coul_condition():
     e = 1e-4
-    coefficient = int((ALPHA * L_VAL / pi) * sqrt(-log(e)))
+    coefficient = int((ALPHA * L / pi) * sqrt(-log(e)))
     if coefficient > 0:
         print coefficient
         raise EwaldConditionError()

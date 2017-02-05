@@ -1,6 +1,6 @@
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from config import L
+from config import LV
 
 
 class Visualizer(object):
@@ -35,7 +35,7 @@ class Visualizer(object):
         self.ax.set_ylabel("y")
         self.ax.set_zlabel("z")
         if set_lim:
-            self.ax.set_xlim(L)
-            self.ax.set_ylim(L)
-            self.ax.set_zlim(L)
+            self.ax.set_xlim(LV)
+            self.ax.set_ylim(LV)
+            self.ax.set_zlim(LV)
         plt.show()
