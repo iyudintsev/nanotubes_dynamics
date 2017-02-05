@@ -12,6 +12,12 @@ class Nanotubes(object):
         self.nanotubes = []
         self.particle_num = None
 
+    def get_node_particles(self):
+        for nan in self.nanotubes:
+            for node in nan.nodes:
+                for p in node:
+                    yield p
+
     """ Set Coordinates """
 
     def set_coordinates(self, coordinates):
