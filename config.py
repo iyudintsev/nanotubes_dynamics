@@ -1,7 +1,7 @@
 """ Configuration File """
 
 """ File with coordinates"""
-file_with_coor = "coordinates/5n20p.txt"
+file_with_coor = "coordinates/1n20p.txt"
 
 """ Model Parameters"""
 L = 200e-7

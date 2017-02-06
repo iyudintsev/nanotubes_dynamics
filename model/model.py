@@ -49,6 +49,8 @@ class Model(object):
         for nanotube_i in self.nanotubes:
             for p_i in nanotube_i:
                 for nanotube_j in self.nanotubes:
+                    if nanotube_i == nanotube_j:
+                        continue
                     for p_j in nanotube_j:
                         self.vanderwaals_energy += calc_vanderwaals_energy(p_i, p_j)  # TODO fix duplication problem
         self.vanderwaals_energy *= .5
@@ -66,6 +68,8 @@ class Model(object):
         for nanotube_i in self.nanotubes:
             for p_i in nanotube_i:
                 for nanotube_j in self.nanotubes:
+                    if nanotube_i == nanotube_j:
+                        continue
                     for p_j in nanotube_j:
                         calc_vanderwaals_forces(p_i, p_j)  # TODO fix duplication problem
 

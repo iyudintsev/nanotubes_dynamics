@@ -41,6 +41,8 @@ def calc_coul_forces(nanotubes):
             f_real = np.array([0., 0., 0.])
             for nanotube_j in nanotubes:
                 for p_j in nanotube_j:
+                    if p_i == p_j:
+                        continue
                     vdr = p_i.r - p_j.r
                     dr = la.norm(vdr)
                     _dr = 1. / dr
@@ -88,11 +90,13 @@ class ChargeCalc(object):
 
         self.am = np.zeros(shape=(self.n, self.n))
         for nanotube_i in self.nanotubes:
-            n_last = nanotube_i[-1].id
-            for i in xrange(nanotube_i[0].id, n_last):
-                for j in xrange(self.n):
-                    self.am[i][j] = self.pm[i][j] - self.pm[i][n_last]
-                self.am[i][n_last] = 1e6
+            for p in nanotube_i:
+                if p == nanotube_i[-1]:
+                    for j in xrange(nanotube_i[0].id, nanotube_i[-1].id):
+                        self.am[nanotube_i[-1].id][j] = 1e6
+                else:
+                    for j in xrange(self.n):
+                        self.am[p.id][j] = self.pm[p.id][j] - self.pm[nanotube_i[-1].id][j]
 
     def run(self):
         self.calc_potential()
