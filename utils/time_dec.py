@@ -8,6 +8,6 @@ def time_spent_dec(func):
         t0 = time.time()
         result = func(*args, **kwargs)
         t1 = time.time()
-        print "Spent time: {0}".format(t0 - t1)
+        print "Spent time: {0}".format(t1 - t0)
         return result
     return dec
