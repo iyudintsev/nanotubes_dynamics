@@ -113,15 +113,18 @@ class Model(object):
     """ Process of Calculation """
 
     def calc(self):
-        print "step 0"
+        print "start"
         self.charge_calc.run()
         print "\t charges calculated"
         self.calc_coul_forces()
         print "\t coul forces calculated"
         self.calc_vanderwaals_forces()
         print "\t vanderwaals forces calculated"
+        self.step_counter += 1
 
         while self.t < time_of_calc:
+            if self.step_counter % 5000 == 0:
+                print "time {0}".format(self.t)
             max_step = 0
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)

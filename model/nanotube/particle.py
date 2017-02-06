@@ -9,6 +9,10 @@ class Particle(object):
         self.f_coul_corr = np.array([0., 0., 0.])
         self.f_lg = np.array([0., 0., 0.])
 
+    @property
+    def f(self):
+        return self.f_coul + self.f_lg
+
     def __repr__(self):
         return "<Particle {0}>".format(self.r)
 

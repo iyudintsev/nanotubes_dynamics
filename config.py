@@ -9,7 +9,7 @@ LV = [0, L]  # border
 particles_number = 20
 h_max = 5e-13  # max step
 h_coul = 1e-9  # coul step
-time_of_calc = 1e-7
+time_of_calc = 2e-9
 time_of_repr = 1e-9
 
 """ FIRE Parameters"""
