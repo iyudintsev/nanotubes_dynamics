@@ -106,7 +106,7 @@ class Nanotube(object):
     def bonding_force(self, p1, p2, x0):
         dr = p1.r - p2.r
         dr_norm = la.norm(dr)
-        f = - self.k_bond * (dr - x0) / dr_norm * dr
+        f = - self.k_bond * (dr_norm - x0) / dr_norm * dr
         p1.f_bond += f
         p2.f_bond -= f
 
@@ -122,7 +122,7 @@ class Nanotube(object):
     def calc_bonding_forces(self):
         for node in self.nodes:
             for p in node:
-                p.f_bond = np.array([0, 0, 0])
+                p.f_bond = np.array([0., 0., 0.])
 
         for index in xrange(self.num - 1):
             self.calc_force(index)
@@ -134,8 +134,9 @@ class Nanotube(object):
 
     def bonding_energy(self, p1, p2, x0):
         dr = p1.r - p2.r
-        dr2 = dr.dot(dr)
-        self._bond_energy += .5 * self.k_bond * (dr2 - x0)
+        dr_norm = la.norm(dr)
+        dx = (dr_norm - x0)
+        self._bond_energy += .5 * self.k_bond * dx * dx
 
     def calc_energy(self, index, next_node=False):
         node0 = self.nodes[index]

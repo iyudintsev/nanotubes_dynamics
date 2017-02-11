@@ -118,14 +118,15 @@ class Model(object):
         print "\t charges calculated"
         self.calc_coul_forces()
         print "\t coul forces calculated"
-        self.calc_vanderwaals_forces()
-        print "\t vanderwaals forces calculated"
+        # self.calc_vanderwaals_forces()
+        # print "\t vanderwaals forces calculated"
         self.step_counter += 1
 
         while self.t < time_of_calc:
             if self.step_counter % 5000 == 0:
                 print "time {0}".format(self.t)
             max_step = 0
+            self.calc_bonding_forces()
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)
 
@@ -134,7 +135,7 @@ class Model(object):
                 self.charge_calc.run()
                 self.calc_coul_forces()
             self.t_coul += self.h
-            self.calc_vanderwaals_forces()
+            # self.calc_vanderwaals_forces()
 
             self.t += self.h
             self.step_counter += 1
