@@ -38,7 +38,6 @@ class Node(object):
     def __init__(self, p0, p1, p2):
         self.particles = {0: p0, 1: p1, 2: p2}
 
-
     def __iter__(self):
         for index in xrange(3):
             yield self.particles[index]

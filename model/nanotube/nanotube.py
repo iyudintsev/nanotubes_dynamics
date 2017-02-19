@@ -91,7 +91,10 @@ class Nanotube(object):
             node2 = self.nodes[index+diff]
             for num in xrange(3):
                 r0 = node1[num].r
-                dr = [r0 - node2[ind].r for ind in self.get_index(num)]
+                dr = [la.norm(r0 - node2[ind].r) for ind in self.get_index(num)]
+                # print diff
+                # print num
+                # print dr
                 if diff == 0:
                     node1[num].current_dist = dr
                 if diff == 1:
