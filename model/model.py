@@ -13,7 +13,7 @@ class Model(object):
         :param num: int, number of particles in one nanotube
         """
         self.nanotubes = Nanotubes(num)
-        self._set_coordinates(coordinates)
+        self.nanotubes.set_coordinates(coordinates)
 
         check_coul_condition()
         self.charge_calc = ChargeCalc(self.nanotubes)
@@ -29,13 +29,19 @@ class Model(object):
         self.fire_alpha = fire_alpha0
 
         """ Energy """
-        self.total_energy = 0
         self.bonding_energy = 0
         self.vanderwaals_energy = 0
         self.coul_energy = 0
 
-    def _set_coordinates(self, coordinates):
-        self.nanotubes.set_coordinates(coordinates)
+    @property
+    def total_energy(self):
+        return self.bonding_energy + self.vanderwaals_energy + self.coul_energy
+
+    def print_energy(self):
+        print 'bonding energy:', self.bonding_energy
+        print 'vanderwaals energy:', self.vanderwaals_energy
+        print 'coul energy:', self.coul_energy
+        print 'total energy:', self.total_energy
 
     """ Energy Calculation """
 
@@ -112,7 +118,39 @@ class Model(object):
 
     """ Process of Calculation """
 
+    def debug_print(self):
+        for nan in self.nanotubes:
+            for node in nan.nodes:
+                for p in node:
+                    print p.f_bond
+
     def calc(self):
+        self.charge_calc.run()
+        self.calc_coul_forces()
+        self.calc_coul_energy()
+
+        self.calc_bonding_forces()
+        self.calc_bonding_energy()
+        self.debug_print()
+        print
+
+        max_step = 0
+        for nan in self.nanotubes:
+            max_step = nan.step(self.h, max_step)
+        # print 'max step', max_step
+        # print
+        # self.print_energy()
+        # print
+        self.charge_calc.run()
+        self.calc_coul_forces()
+        self.calc_coul_energy()
+
+        self.calc_bonding_forces()
+        self.calc_bonding_energy()
+        # self.print_energy()
+        self.debug_print()
+
+    def calc_old(self):
         print "start"
         self.charge_calc.run()
         print "\t charges calculated"
