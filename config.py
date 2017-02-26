@@ -9,8 +9,8 @@ LV = [75e-7, 105e-7]  # border
 particles_number = 20
 h_max = 5e-13  # max step
 h_coul = 1e-9  # coul step
-time_of_calc = 1e-9
-time_of_repr = 1e-9
+time_of_calc = 1e-7
+dump_file = "result.txt"  # coordinates during calculation
 
 """ FIRE Parameters"""
 fire_n_min = 5

@@ -2,7 +2,7 @@ import numpy as np
 from nanotubes import Nanotubes
 from vanderwaals import calc_vanderwaals_energy, calc_vanderwaals_forces
 from coul import ChargeCalc, calc_coul_energy, calc_coul_forces, check_coul_condition
-from config import h_max, h_coul, time_of_calc, time_of_repr
+from config import h_max, h_coul, time_of_calc, dump_file
 from config import fire_alpha0, fire_n_min, fire_f_alpha, fire_f_dec, fire_f_inc, max_step_lim
 
 
@@ -23,6 +23,9 @@ class Model(object):
         self.t_repr = 0  # control of repr
         self.repr_now = False
         self.step_counter = 0
+        """ Dump Coordinates """
+        self.dump_file = None
+        self.init_dump_file()
 
         """ FIRE """
         self.fire_counter = 0
@@ -32,6 +35,11 @@ class Model(object):
         self.bonding_energy = 0
         self.vanderwaals_energy = 0
         self.coul_energy = 0
+
+    def init_dump_file(self):
+        with open(dump_file, "w") as f:
+            f.write('')
+        self.dump_file = open(dump_file, "a")
 
     @property
     def total_energy(self):
@@ -117,8 +125,14 @@ class Model(object):
             self.h *= fire_f_dec
 
     """ Process of Calculation """
+    def dump(self):
+        for nan in self.nanotubes:
+            for p in nan:
+                out = "{0} {1} {2}\n".format(*p.r)
+                self.dump_file.write(out)
 
     def calc(self):
+        self.dump()
         self.charge_calc.run()
         print "\t charges calculated"
 
@@ -141,12 +155,15 @@ class Model(object):
                 self.t_coul -= h_coul
                 self.charge_calc.run()
                 self.calc_coul_forces()
+                self.dump()
+
             self.t_coul += self.h
             # self.calc_vanderwaals_forces()
 
             self.t += self.h
             self.step_counter += 1
             self.fire_algorithm(max_step)
+        self.dump()
 
     """ Magic Methods"""
 
@@ -154,3 +171,6 @@ class Model(object):
         counter = self.nanotubes.counter
         num = self.nanotubes.num
         return "<Model: {0} nanotubes, {1} particles>".format(counter, counter * num)
+
+    def __del__(self):
+        self.dump_file.close()
