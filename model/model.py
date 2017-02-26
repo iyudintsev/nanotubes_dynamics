@@ -118,44 +118,13 @@ class Model(object):
 
     """ Process of Calculation """
 
-    def debug_print(self):
-        for nan in self.nanotubes:
-            for node in nan.nodes:
-                for p in node:
-                    print p.f_bond
-
     def calc(self):
         self.charge_calc.run()
-        self.calc_coul_forces()
-        self.calc_coul_energy()
-
-        self.calc_bonding_forces()
-        self.calc_bonding_energy()
-        self.debug_print()
-        print
-
-        max_step = 0
-        for nan in self.nanotubes:
-            max_step = nan.step(self.h, max_step)
-        # print 'max step', max_step
-        # print
-        # self.print_energy()
-        # print
-        self.charge_calc.run()
-        self.calc_coul_forces()
-        self.calc_coul_energy()
-
-        self.calc_bonding_forces()
-        self.calc_bonding_energy()
-        # self.print_energy()
-        self.debug_print()
-
-    def calc_old(self):
-        print "start"
-        self.charge_calc.run()
         print "\t charges calculated"
+
         self.calc_coul_forces()
         print "\t coul forces calculated"
+
         # self.calc_vanderwaals_forces()
         # print "\t vanderwaals forces calculated"
         self.step_counter += 1
