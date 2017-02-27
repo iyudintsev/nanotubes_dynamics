@@ -8,8 +8,9 @@ from utils.time_dec import time_spent_dec
 def main():
     parser = Parser(file_with_coor, norm=1e-7)
     model = Model(num=particles_number, coordinates=parser.coordinates)
-    calc_func = time_spent_dec(model.calc)
-    calc_func()
+    # calc_func = time_spent_dec(model.calc)
+    # calc_func()
+    model.calc()
 
     view = Visualizer(model.nanotubes)
     view.show()
