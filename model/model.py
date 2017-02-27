@@ -46,10 +46,10 @@ class Model(object):
         return self.bonding_energy + self.vanderwaals_energy + self.coul_energy
 
     def print_energy(self):
-        print 'bonding energy:', self.bonding_energy
-        print 'vanderwaals energy:', self.vanderwaals_energy
-        print 'coul energy:', self.coul_energy
-        print 'total energy:', self.total_energy
+        print "time {0}".format(self.t)
+        print '\tbonding energy:', self.bonding_energy / 1.6e-12
+        print '\tcoul energy:', self.coul_energy / 1.6e-12
+        print '\ttotal energy:', self.total_energy / 1.6e-12
 
     """ Energy Calculation """
 
@@ -71,6 +71,10 @@ class Model(object):
 
     def calc_coul_energy(self):
         self.coul_energy = calc_coul_energy(self.nanotubes)
+
+    def calc_energy(self):
+        self.calc_bonding_energy()
+        self.calc_coul_energy()
 
     """ Forces Calculation"""
     
@@ -144,18 +148,22 @@ class Model(object):
         self.step_counter += 1
 
         while self.t < time_of_calc:
-            if self.step_counter % 5000 == 0:
-                print "time {0}".format(self.t)
+
             max_step = 0
             self.calc_bonding_forces()
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)
 
+            if self.step_counter % 2000 == 0:
+                self.calc_energy()
+                self.print_energy()
+                print "\tmax step:", max_step
+                self.dump()
+
             if self.t_coul >= h_coul:
                 self.t_coul -= h_coul
                 self.charge_calc.run()
                 self.calc_coul_forces()
-                self.dump()
 
             self.t_coul += self.h
             # self.calc_vanderwaals_forces()
