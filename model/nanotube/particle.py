@@ -33,7 +33,7 @@ class NodeParticle(object):
 
 class Node(object):
     def __init__(self, coor):
-        self.particles = {i: NodeParticle(coor[i]) for i in xrange(3)}
+        self.particles = [NodeParticle(coor[i]) for i in xrange(3)]
 
     def __iter__(self):
         for index in xrange(3):
