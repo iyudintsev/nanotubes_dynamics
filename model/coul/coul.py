@@ -32,6 +32,9 @@ def calc_coul_energy(nanotubes):
                     dr = la.norm(p_i.r - p_j.r)
                     if dr > 0:
                         e_real += .5 * p_i.q * p_j.q * (erfc(ALPHA * dr) / dr) * (1. - exp(-ALPHA_CUTOFF * dr))
+    print "\t\tself energy =", e_self / 1.6e-12
+    print "\t\treal energy =", e_real / 1.6e-12
+    print "\t\tfield energy =", e_field / 1.6e-12
     return e_self + e_real + e_field
 
 

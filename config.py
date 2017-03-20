@@ -1,12 +1,12 @@
 """ Configuration File """
 
 """ File with coordinates"""
-file_with_coor = "coordinates/1n20p.txt"
+file_with_coor = "coordinates/coordinates.txt"
 
 """ Model Parameters"""
 L = 200e-7
 LV = [75e-7, 105e-7]  # border
-particles_number = 20
+particles_number = 100
 h_max = 5e-13  # max step
 h_coul = 1e-9  # coul step
 time_of_calc = 1e-7

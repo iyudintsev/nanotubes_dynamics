@@ -146,6 +146,8 @@ class Model(object):
         # self.calc_vanderwaals_forces()
         # print "\t vanderwaals forces calculated"
         self.step_counter += 1
+        self.calc_energy()
+        self.print_energy()
 
         while self.t < time_of_calc:
 
@@ -154,7 +156,7 @@ class Model(object):
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)
 
-            if self.step_counter % 2000 == 0:
+            if self.step_counter % 200 == 0:
                 self.calc_energy()
                 self.print_energy()
                 print "\tmax step:", max_step
@@ -171,6 +173,7 @@ class Model(object):
             self.t += self.h
             self.step_counter += 1
             self.fire_algorithm(max_step)
+            # print self.h
         self.dump()
 
     """ Magic Methods"""
