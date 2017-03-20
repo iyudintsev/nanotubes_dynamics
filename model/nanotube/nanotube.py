@@ -159,6 +159,8 @@ class Nanotube(object):
         dx = 1e-15
         # dx = 1e-13
         print '-' * 100
+        print "Bonding Forces"
+        print ''
         nodes = self.nodes[:num]
         for node in nodes:
             for p in node:

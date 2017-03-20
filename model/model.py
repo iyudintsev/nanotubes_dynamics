@@ -164,7 +164,7 @@ class Model(object):
                 self.print_energy()
                 print "\tmax step:", max_step
                 self.dump()
-                # self.comp_coul_dir(10)
+                self.comp_coul_dir(10)
                 self.nanotubes[0].comp_bonding_dir()
 
             if self.t_coul >= h_coul:
@@ -176,10 +176,7 @@ class Model(object):
 
             self.t += self.h
             self.step_counter += 1
-            if max_step > 5.e-11:
-                self.h *= .5
-                # self.fire_algorithm(max_step)
-                # print self.h
+            self.fire_algorithm(max_step)
         self.dump()
 
     """ Tests """
@@ -189,6 +186,8 @@ class Model(object):
         nan = self.nanotubes[0]
         c = 0
         print '-' * 100
+        print "Coul Forces"
+        print ''
         for p in nan:
             if c == num:
                 break
