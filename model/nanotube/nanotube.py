@@ -156,8 +156,8 @@ class Nanotube(object):
     """ Tests """
 
     def comp_bonding_dir(self, num=5):
-        # dx = 1e-15
-        dx = 1e-13
+        dx = 1e-15
+        # dx = 1e-13
         print '-' * 100
         nodes = self.nodes[:num]
         for node in nodes:
