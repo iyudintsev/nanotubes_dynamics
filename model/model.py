@@ -71,6 +71,7 @@ class Model(object):
 
     def calc_coul_energy(self):
         self.coul_energy = calc_coul_energy(self.nanotubes)
+        return self.coul_energy
 
     def calc_energy(self):
         self.calc_bonding_energy()
@@ -95,6 +96,7 @@ class Model(object):
         calc_coul_forces(self.nanotubes)
 
     """ FIRE algorithm """
+
     def fire_algorithm(self, max_step):
         fire_p = 0
         f_norm = 0
@@ -129,6 +131,7 @@ class Model(object):
             self.h *= fire_f_dec
 
     """ Process of Calculation """
+
     def dump(self):
         for nan in self.nanotubes:
             for p in nan:
@@ -161,20 +164,45 @@ class Model(object):
                 self.print_energy()
                 print "\tmax step:", max_step
                 self.dump()
+                # self.comp_coul_dir(10)
 
             if self.t_coul >= h_coul:
                 self.t_coul -= h_coul
                 self.charge_calc.run()
                 self.calc_coul_forces()
-
             self.t_coul += self.h
             # self.calc_vanderwaals_forces()
 
             self.t += self.h
             self.step_counter += 1
-            self.fire_algorithm(max_step)
-            # print self.h
+            if max_step > 5.e-11:
+                self.h *= .5
+                # self.fire_algorithm(max_step)
+                # print self.h
         self.dump()
+
+    """ Tests """
+
+    def comp_coul_dir(self, num):
+        dx = 1e-13
+        nan = self.nanotubes[0]
+        c = 0
+        print '-' * 100
+        for p in nan:
+            if c == num:
+                break
+            f = np.zeros(shape=3)
+            for i in xrange(3):
+                e0 = self.calc_coul_energy()
+                p.r[i] += dx
+                e1 = self.calc_coul_energy()
+                p.r[i] -= dx
+                f[i] = (e0 - e1) / dx
+            print f
+            print p.f_coul
+            print ''
+            c += 1
+        print '-' * 100
 
     """ Magic Methods"""
 
