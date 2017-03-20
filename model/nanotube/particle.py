@@ -32,8 +32,12 @@ class NodeParticle(object):
 
 
 class Node(object):
+    id = 0
+
     def __init__(self, coor):
+        self.id = Node.id
         self.particles = [NodeParticle(coor[i]) for i in xrange(3)]
+        Node.id += 1
 
     def __iter__(self):
         for index in xrange(3):
@@ -41,3 +45,13 @@ class Node(object):
 
     def __getitem__(self, index):
         return self.particles[index]
+
+
+class Neighbor(object):
+    def __init__(self, node_id, index):
+        self.node_id = node_id
+        self.index = index
+
+    def __repr__(self):
+        return "<Neighbor: node {0}| index {1}>".format(self.node_id, self.index)
+

@@ -165,6 +165,7 @@ class Model(object):
                 print "\tmax step:", max_step
                 self.dump()
                 # self.comp_coul_dir(10)
+                self.nanotubes[0].comp_bonding_dir()
 
             if self.t_coul >= h_coul:
                 self.t_coul -= h_coul

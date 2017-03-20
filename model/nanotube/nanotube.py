@@ -1,6 +1,6 @@
 import numpy as np
 from numpy import linalg as la
-from .particle import Particle, Node
+from .particle import Particle, Node, Neighbor
 from .bonding import force, energy
 from config import mass
 
@@ -61,7 +61,8 @@ class Nanotube(object):
             p = current_node[j]
             for node in nodes:
                 for index in self.get_index(j):
-                    p.neighbors.append(node[index])
+                    neighbor = Neighbor(node_id=node.id, index=index)
+                    p.neighbors.append(neighbor)
                     p.distances.append(la.norm(node[index].r - p.r))
 
     def determine_neighbors(self):
@@ -91,10 +92,10 @@ class Nanotube(object):
 
     """ Bonding """
 
-    @staticmethod
-    def bonding_forces(p):
+    def bonding_forces(self, p):
         for i in xrange(len(p.neighbors)):
-            r = p.neighbors[i].r
+            neighbor = p.neighbors[i]
+            r = self.nodes[neighbor.node_id][neighbor.index].r
             x = p.distances[i]
             p.f_bond += force(p.r, r, x)
 
@@ -104,11 +105,11 @@ class Nanotube(object):
                 p.f_bond = np.zeros(shape=3)
                 self.bonding_forces(p)
 
-    @staticmethod
-    def bonding_energy(p):
+    def bonding_energy(self, p):
         e = 0
         for i in xrange(len(p.neighbors)):
-            r = p.neighbors[i].r
+            neighbor = p.neighbors[i]
+            r = self.nodes[neighbor.node_id][neighbor.index].r
             x = p.distances[i]
             e += .5 * energy(p.r, r, x)
         return e
@@ -151,6 +152,26 @@ class Nanotube(object):
         max_step = np.sqrt(max_step)
         self.update_coordinates()
         return max_step if max_step > total_max_step else total_max_step
+
+    """ Tests """
+
+    def comp_bonding_dir(self):
+        dx = 1e-13
+        print '-' * 100
+        nodes = self.nodes
+        for node in nodes:
+            for p in node:
+                f = np.zeros(shape=3)
+                for i in xrange(3):
+                    e0 = self.calc_bonding_energy()
+                    p.r[i] += dx
+                    e1 = self.calc_bonding_energy()
+                    p.r[i] -= dx
+                    f[i] = (e0 - e1) / dx
+                print f
+                print p.f_bond
+                print ''
+        print '-' * 100
 
     """ Magic Methods """
 
