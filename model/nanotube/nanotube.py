@@ -93,22 +93,23 @@ class Nanotube(object):
     """ Bonding """
 
     def bonding_forces(self, p):
-        for i in xrange(len(p.neighbors)):
-            neighbor = p.neighbors[i]
+        for i, neighbor in enumerate(p.neighbors):
+            # print "\t\tNEIGHBOR: NODE {0}, INDEX {1}".format(neighbor.node_id, neighbor.index)
             r = self.nodes[neighbor.node_id][neighbor.index].r
             x = p.distances[i]
             p.f_bond += force(p.r, r, x)
 
     def calc_bonding_forces(self):
         for node in self.nodes:
-            for p in node:
+            # print "\tNODE {}".format(node.id)
+            for i, p in enumerate(node):
+                # print "\ti = {}".format(i)
                 p.f_bond = np.zeros(shape=3)
                 self.bonding_forces(p)
 
     def bonding_energy(self, p):
         e = 0
-        for i in xrange(len(p.neighbors)):
-            neighbor = p.neighbors[i]
+        for i, neighbor in enumerate(p.neighbors):
             r = self.nodes[neighbor.node_id][neighbor.index].r
             x = p.distances[i]
             e += .5 * energy(p.r, r, x)
