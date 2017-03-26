@@ -129,8 +129,7 @@ class Nanotube(object):
             for node_particle in self.nodes[num]:
                 node_particle.f = f_ex + node_particle.f_bond
 
-    @staticmethod
-    def get_coor_from_node(node):
+    def get_coor_from_node(self, node):
         return coeff1_3 * sum([p.r for p in node])
 
     def update_coordinates(self):
@@ -147,8 +146,8 @@ class Nanotube(object):
                 dr2 = dr.dot(dr)
                 if dr2 > max_step:
                     max_step = dr2
-                    p.r += dr
-                    p.v += h * self._m * p.f
+                p.r += dr
+                p.v += h * self._m * p.f
         max_step = np.sqrt(max_step)
         self.update_coordinates()
         return max_step if max_step > total_max_step else total_max_step

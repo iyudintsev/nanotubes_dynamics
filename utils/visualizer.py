@@ -16,13 +16,11 @@ class Visualizer(object):
             self.simple_iter(nan, coordinates) if not nodes else self.nodes_iter(nan, coordinates)
         return coordinates
 
-    @staticmethod
-    def simple_iter(nan, coordinates):
+    def simple_iter(self, nan, coordinates):
         for p in nan:
             coordinates.append(p.r)
 
-    @staticmethod
-    def nodes_iter(nan, coordinates):
+    def nodes_iter(self, nan, coordinates):
         for node in nan.nodes:
             for p in node:
                 coordinates.append(p.r)
