@@ -154,25 +154,28 @@ class Model(object):
 
         while self.t < time_of_calc:
 
+            self.calc_bonding_forces()
+            # if self.step_counter % 1 == 0:
+            #     self.nanotubes[0].comp_bonding_dir()
+
             max_step = 0
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)
-            self.calc_bonding_forces()
 
             if self.step_counter % 1 == 0:
                 self.calc_energy()
                 self.print_energy()
                 print "\tmax step:", max_step
                 print "\th:", self.h
-                # self.dump()
-                self.comp_coul_dir(10)
-                self.nanotubes[0].comp_bonding_dir()
+                self.dump()
+                # self.comp_coul_dir(10)
 
             if self.t_coul >= h_coul:
                 self.t_coul -= h_coul
                 self.charge_calc.run()
-                self.calc_coul_forces()
             self.t_coul += self.h
+
+            self.calc_coul_forces()
             # self.calc_vanderwaals_forces()
 
             self.t += self.h
