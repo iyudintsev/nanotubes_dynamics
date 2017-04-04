@@ -133,10 +133,13 @@ class Model(object):
     """ Process of Calculation """
 
     def dump(self):
-        for nan in self.nanotubes:
-            for p in nan:
-                out = "{0} {1} {2}\n".format(*p.r)
-                self.dump_file.write(out)
+        # for nan in self.nanotubes:
+        #     for p in nan.get:
+        #         out = "{0} {1} {2}\n".format(*p.r)
+        #         self.dump_file.write(out)
+        for p in self.nanotubes.get_node_particles():
+            out = "{0} {1} {2}\n".format(*p.r)
+            self.dump_file.write(out)
 
     def calc(self):
         self.dump()
