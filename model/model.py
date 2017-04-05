@@ -103,6 +103,7 @@ class Model(object):
         v_norm = 0
 
         for p in self.nanotubes.get_node_particles():
+            #print([p.v, p.f])
             fire_p += p.f.dot(p.v)
             f_norm += p.f.dot(p.f)
             v_norm += p.v.dot(p.v)
@@ -110,6 +111,7 @@ class Model(object):
         _f_norm = 1. / f_norm
         v_norm = np.sqrt(v_norm)
 
+        #print("Fire P ",fire_p)
         for p in self.nanotubes.get_node_particles():
             f_n = p.f * _f_norm
             p.v = (1 - self.fire_alpha) * p.v + self.fire_alpha * v_norm * f_n
@@ -156,11 +158,6 @@ class Model(object):
         self.print_energy()
 
         while self.t < time_of_calc:
-
-            self.calc_bonding_forces()
-            # if self.step_counter % 200 == 0:
-            #     self.nanotubes[0].comp_bonding_dir()
-
             max_step = 0
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)
@@ -171,18 +168,26 @@ class Model(object):
                 print "\tmax step:", max_step
                 print "\th:", self.h
                 self.dump()
-                # self.comp_coul_dir(10)
+                #self.comp_coul_dir(10)
 
             if self.t_coul >= h_coul:
                 self.t_coul -= h_coul
                 self.charge_calc.run()
             self.t_coul += self.h
 
+            self.calc_bonding_forces()
+            #if self.step_counter % 200 == 0:
+            #    self.nanotubes[0].comp_bonding_dir()
+
             self.calc_coul_forces()
             # self.calc_vanderwaals_forces()
 
             self.t += self.h
             self.step_counter += 1
+            
+            for nan in self.nanotubes:
+                nan.update_external_forces()
+                
             self.fire_algorithm(max_step)
         self.dump()
 

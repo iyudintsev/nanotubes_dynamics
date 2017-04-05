@@ -138,12 +138,11 @@ class Nanotube(object):
             self.particles[num].r = self.get_coor_from_node(node)
 
     def step(self, h, total_max_step):
-        self.update_external_forces()
+        # self.update_external_forces()
         max_step = 0
         for node in self.nodes:
-            dr = np.array([0., 0., 0.])
             for p in node:
-                dr += h * p.v + .5 * h * h * self._m * p.f
+                dr = h * p.v + .5 * h * h * self._m * p.f
                 dr2 = dr.dot(dr)
                 if dr2 > max_step:
                     max_step = dr2
