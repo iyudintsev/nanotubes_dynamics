@@ -168,7 +168,7 @@ class Model(object):
                 print "\tmax step:", max_step
                 print "\th:", self.h
                 self.dump()
-                #self.comp_coul_dir(10)
+                # self.comp_coul_dir(10)
 
             if self.t_coul >= h_coul:
                 self.t_coul -= h_coul
@@ -176,7 +176,7 @@ class Model(object):
             self.t_coul += self.h
 
             self.calc_bonding_forces()
-            #if self.step_counter % 200 == 0:
+            # if self.step_counter % 200 == 0:
             #    self.nanotubes[0].comp_bonding_dir()
 
             self.calc_coul_forces()
