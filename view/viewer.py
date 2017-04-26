@@ -75,7 +75,7 @@ if __name__ == "__main__":
             pause = float(pause)
     try:        
         L = map(lambda x: 1e-7*x, [75, 105])
-        viewer = MDViewer(N=300, L=L, freq=freq, pause=pause)
+        viewer = MDViewer(N=60, L=L, freq=freq, pause=pause)
     except ShutDownError as ex:
         print "ShutDownError: {}".format(ex)
     else:
