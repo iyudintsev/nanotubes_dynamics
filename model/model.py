@@ -1,8 +1,10 @@
+from datetime import datetime
+
 import numpy as np
 from nanotubes import Nanotubes
 from vanderwaals import calc_vanderwaals_energy, calc_vanderwaals_forces
 from coul import ChargeCalc, calc_coul_energy, calc_coul_forces, check_coul_condition
-from config import h_max, h_coul, time_of_calc, dump_file
+from config import h_max, h_coul, time_of_calc, dump_file, time_file
 from config import fire_alpha0, fire_n_min, fire_f_alpha, fire_f_dec, fire_f_inc, max_step_lim
 
 
@@ -142,6 +144,13 @@ class Model(object):
         for p in self.nanotubes.get_node_particles():
             out = "{0} {1} {2}\n".format(*p.r)
             self.dump_file.write(out)
+        self.dump_to_time_file()
+
+    def dump_to_time_file(self):
+        with open(time_file, 'a') as f:
+            now = datetime.now()
+            out = '{0} {1}'.format(now, self.t)
+            f.write(out)
 
     def calc(self):
         self.dump()
@@ -162,7 +171,7 @@ class Model(object):
             for nan in self.nanotubes:
                 max_step = nan.step(self.h, max_step)
 
-            if self.step_counter % 200 == 0:
+            if self.step_counter % 1000 == 0:
                 self.calc_energy()
                 self.print_energy()
                 print "\tmax step:", max_step

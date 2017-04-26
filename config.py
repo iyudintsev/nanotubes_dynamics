@@ -14,6 +14,7 @@ h_max = 5e-13  # max step
 h_coul = 1e-9  # coul step
 time_of_calc = 1e-7
 dump_file = "result.txt"  # coordinates during calculation
+time_file = "time.txt"
 
 """ FIRE Parameters"""
 fire_n_min = 5
