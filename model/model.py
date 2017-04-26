@@ -42,7 +42,7 @@ class Model(object):
         with open(dump_file, "w") as f:
             f.write('')
         self.dump_file = open(dump_file, "a")
-        with open(time_file, "w"):
+        with open(time_file, "w") as f:
             f.write('')
 
     @property
