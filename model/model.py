@@ -149,7 +149,7 @@ class Model(object):
     def dump_to_time_file(self):
         with open(time_file, 'a') as f:
             now = datetime.now()
-            out = '{0} {1}'.format(now, self.t)
+            out = '{0} {1}\n'.format(now, self.t)
             f.write(out)
 
     def calc(self):
