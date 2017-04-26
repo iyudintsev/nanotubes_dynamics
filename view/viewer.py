@@ -19,8 +19,7 @@ class MDViewer(object):
         try:
             self.f = open(path)
         except IOError:
-            print "There is no file 'data.dat'"
-            raise ShutDownError
+            raise ShutDownError("There is no file 'data.dat'")
         self.N = N - 1  # the Number of particles
         self.L = L or [0, 200]  # the length of the counting area
         self.freq = freq if freq is not None else 1
@@ -34,7 +33,7 @@ class MDViewer(object):
             if number == self.N:
                 break
         if not data:
-            raise StopPlotData
+            raise StopPlotData()
         coor = lambda ind: [elem[ind] for elem in data]
         return map(coor, xrange(3))
 
@@ -77,7 +76,7 @@ if __name__ == "__main__":
     try:        
         L = map(lambda x: 1e-7*x, [75, 105])
         viewer = MDViewer(N=300, L=L, freq=freq, pause=pause)
-    except ShutDownError:
-        pass
+    except ShutDownError as ex:
+        print "ShutDownError: {}".format(ex)
     else:
         viewer.run()
