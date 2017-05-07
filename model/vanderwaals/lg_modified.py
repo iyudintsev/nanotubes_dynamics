@@ -45,6 +45,6 @@ def energy(r_input):
     ratio2 = LG_SIGMA2 / r.dot(r)
     ratio6 = ratio2 * ratio2 * ratio2
     ratio12 = ratio6 * ratio6
-    u += 4 * LG_EPSILON * (ratio12 - ratio12)
+    u += 4 * LG_EPSILON * (ratio6 - ratio12)
     return u
 
