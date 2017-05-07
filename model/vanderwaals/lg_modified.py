@@ -1,5 +1,7 @@
 import numpy as np
 from numpy import linalg as la
+from matplotlib import pyplot as plt
+
 
 LG_CUTOFF_MAX = 2e-7
 LG_CUTOFF_MAX2 = LG_CUTOFF_MAX * LG_CUTOFF_MAX
@@ -45,6 +47,12 @@ def energy(r_input):
     ratio2 = LG_SIGMA2 / r.dot(r)
     ratio6 = ratio2 * ratio2 * ratio2
     ratio12 = ratio6 * ratio6
-    u += 4 * LG_EPSILON * (ratio6 - ratio12)
+    u += 4 * LG_EPSILON * (ratio12 - ratio6)
     return u
 
+
+if __name__ == "__main__":
+    x_val = map(lambda x: np.array([x, 0., 0.]), np.arange(.5e-7, 2e-7, 1e-9))
+    y_val = map(energy, x_val)
+    plt.plot(map(lambda x: x[0], x_val), y_val)
+    plt.show()
